@@ -61,7 +61,7 @@ describe('Given the robots.repository methods', () => {
             const mockedUpdatedItem = {
                 name: 'updateItem',
             };
-            const updatedItem = await repoPatch(testIds[0], mockedUpdatedItem);
+            const updatedItem = await repoPatch(mockedUpdatedItem);
             expect(updatedItem.name).toEqual(mockedUpdatedItem.name);
         });
 

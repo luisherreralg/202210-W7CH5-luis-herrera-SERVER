@@ -12,5 +12,5 @@ export const robotRouter = Router();
 robotRouter.get('/', controllerGetAll);
 robotRouter.get('/:id', controllerGet);
 robotRouter.post('/', controllerPost);
-robotRouter.patch('/:id', controllerPatch);
+robotRouter.patch('/', controllerPatch);
 robotRouter.delete('/:id', controllerDelete);
