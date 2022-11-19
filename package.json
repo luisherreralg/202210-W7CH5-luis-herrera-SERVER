@@ -3,6 +3,9 @@
     "version": "1.0.0",
     "description": "API server with express",
     "main": "index.js",
+    "engines": {
+        "node": "14.x"
+    },
     "type": "module",
     "scripts": {
         "start": "cross-env DEBUG=w7* node dist/index.js",
