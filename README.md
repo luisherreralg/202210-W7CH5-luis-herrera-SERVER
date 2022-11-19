@@ -1,36 +1,27 @@
-# Week 7 - Challenge 2
+# Week 7 - Challenge WeekEnd
 
-## API REST Things I already know
+## Robots
 
-Crea una API REST que se conecte a un fichero JSON, para manipular recursos de tipo _cosas que ya sé_. El JSON tendrá una sola propiedad de tipo array, donde almacenarán objetos que representarán cosas que hemos aprendido en el bootcamp. Duplica el fichero JSON de datos para que una sea la de pruebas y otra la de producción.
+Tendrás que crear un **frontend** en React (con Redux) que permita al usuario gestionar un listado con sus robots. El usuario debe poder listar, crear, modificar y borrar robots. Cada robot debe mostrar un nombre, una imagen (URL de internet) y unas características:
 
-La API REST debe tener los siguientes endpoints:
+-   Velocidad (0-10)
+-   Resistencia (0-10)
+-   Fecha de creación
 
-[GET] /things -> devuelve el array de cosas que ya sé
+Tendrás que crear una base de datos MongoDB para almacenar los robots, en Atlas.
 
-[GET] /things/:idThing -> devuelve una cosa que ya sé
+Tendrás que crear una API REST con Express, con los siguientes endpoints:
 
-[DELETE] /things/:idThing -> borra una cosa que ya sé
+[GET] /robots -> devuelve un array con todos los robots de la BD
 
-[POST] /things -> crea una cosa que ya sé (la recibe en el body)
+[GET] /robots/:idRobot -> devuelve un robot de la BD por id
 
-[PATCH] /things -> modifica una cosa que ya sé (la recibe en el body)
+[POST*] /robots/create -> recibe un robot (sin id), lo crea en la BD y devuelve el robot recién creado
 
-## Opción extra:
+[PATCH*] /robots/update -> recibe un robot, modifica en la BD el robot con la misma id que el recibido, y devuelve el robot modificado
 
-Para iniciar la API, el programa debe mostrarle al usuario las siguientes preguntas (utiliza el paquete `inquirer`):
+[DELETE*] /robots/delete/:idRobot -> elimina de la BD un robot por id y devuelve un objeto con la id
 
--   ¿En qué puerto quieres que se inicie la API? (respuesta por defecto: 4000)
--   ¿Qué fichero quieres usar? (pregunta con varias opciones, una única respuesta)
-    -   Pruebas
-    -   Producción
--   ¿Quieres permitir que los clientes puedan crear, borrar y modificar? (respuesta de sí o no)
+Recuerda que cada response debe ir con un código de status adecuado y que todos los body de las responses tienen que ser **objetos** en JSON.
 
-## Utiliza el patrón de express:
-
--   server.ts
--   app.ts
--   /router
--   /controller
-
-## Testear los controllers
+Sora decirlo: **TESTEAMOS** todo y lo mostramos en **SonarCloud**.
