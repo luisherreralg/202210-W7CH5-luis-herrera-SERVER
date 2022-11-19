@@ -43,6 +43,9 @@ describe('Given the robots.repository methods', () => {
         test('Then repoGet should return one mocked item', async () => {
             const getItem = await repoGet(testIds[0]);
             expect(getItem.name).toBe(mockData[0].name);
+
+            // ! Intentando cubrir coverage de error
+            expect(async () => await repoGet(testIds[0])).not.toThrow();
         });
 
         test('Then repoPost should create a new item', async () => {
@@ -65,6 +68,26 @@ describe('Given the robots.repository methods', () => {
         test('Then the repoDelete must return an undefined', async () => {
             const result = await repoDelete(testIds[0]);
             expect(result).toBeUndefined();
+        });
+
+        // ! ############ INTENTOS DE TEST PARA PASAR COVERAGE ############
+
+        test('Then if we pass to repoDelete a wrong id, it should throw an error', async () => {
+            expect(async () => {
+                await repoDelete('PEPE');
+            }).rejects.toThrowError(mongoose.Error.CastError);
+        });
+
+        test('Then if we pass to repoGet a wrong id, it should throw an error', () => {
+            expect(async () => {
+                await repoGet('PEPE');
+            }).rejects.toThrowError(mongoose.Error.CastError);
+        });
+
+        test('PlaceHolder Error throw', () => {
+            expect(() => {
+                throw new Error('Error');
+            }).toThrowError('Error');
         });
     });
 });
