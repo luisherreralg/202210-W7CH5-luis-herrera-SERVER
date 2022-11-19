@@ -8,5 +8,12 @@ describe('Given the db.connect module', () => {
             expect(typeof result).toBe(typeof mongoose);
             mongoose.disconnect();
         });
+
+        test('When the NODE_ENV is not "test"', () => {
+            process.env.NODE_ENV = 'development';
+            const result = dbConnect();
+            expect(result).toBeInstanceOf(Promise);
+            mongoose.disconnect();
+        });
     });
 });
