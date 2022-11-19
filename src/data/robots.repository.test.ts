@@ -40,10 +40,6 @@ describe('Given the robots.repository methods', () => {
             expect(getData).toHaveLength(2);
         });
 
-        // test('If the repoGetAll fails, then it should return an error', () => {
-        //  //
-        //  })
-
         test('Then repoGet should return one mocked item', async () => {
             const getItem = await repoGet(testIds[0]);
             expect(getItem.name).toBe(mockData[0].name);
@@ -58,7 +54,7 @@ describe('Given the robots.repository methods', () => {
             expect(createNewItem.name).toBe(mockedNewItem.name);
         });
 
-        test('Then the repoPatch should update an existing thing', async () => {
+        test('Then the repoPatch should update an existing robot', async () => {
             const mockedUpdatedItem = {
                 name: 'updateItem',
             };

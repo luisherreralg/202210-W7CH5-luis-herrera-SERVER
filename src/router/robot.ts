@@ -9,8 +9,6 @@ import {
 
 export const robotRouter = Router();
 
-// const controller = new ThingController(new ThingFileData());
-
 robotRouter.get('/', controllerGetAll);
 robotRouter.get('/:id', controllerGet);
 robotRouter.post('/', controllerPost);

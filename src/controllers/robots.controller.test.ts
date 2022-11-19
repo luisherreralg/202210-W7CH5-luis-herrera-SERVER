@@ -13,11 +13,19 @@ jest.mock('../data/robots.repository');
 const mockData = [
     {
         id: '0',
-        title: 'test',
+        name: 'test0',
+        image: 'test0',
+        speed: 0,
+        endurance: 0,
+        creationDate: 0,
     },
     {
         id: '1',
-        title: 'test2',
+        name: 'test1',
+        image: 'test1',
+        speed: 1,
+        endurance: 1,
+        creationDate: 1,
     },
 ];
 
@@ -67,7 +75,7 @@ describe('Given the robots controller methods', () => {
                 resp as Response,
                 next as NextFunction
             );
-            expect(resp.json).toHaveBeenCalledWith({ robots: mockData[0] });
+            expect(resp.json).toHaveBeenCalledWith({ robot: mockData[0] });
         });
 
         test('Then if the controllerGet cant get a response, it should return an error', async () => {
@@ -82,12 +90,13 @@ describe('Given the robots controller methods', () => {
 
         test('Then controllerPost should return a response with an object of mockData', async () => {
             req.body = mockData[0];
+
             await controllerPost(
                 req as Request,
                 resp as Response,
                 next as NextFunction
             );
-            expect(resp.json).toHaveBeenCalledWith({ robots: mockData[0] });
+            expect(resp.json).toHaveBeenCalledWith({ robot: mockData[0] });
         });
 
         test('Then if the controllerPost cant get a response, it should return an error', async () => {

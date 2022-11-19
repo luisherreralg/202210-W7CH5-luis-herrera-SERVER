@@ -2,7 +2,7 @@ import { model, Schema } from 'mongoose';
 import { ProtoRobot, Robot } from '../interfaces/robot.js';
 import { id } from './data.js';
 
-export const thingSchema = new Schema({
+export const robotSchema = new Schema({
     id: String,
     name: String,
     image: String,
@@ -11,11 +11,11 @@ export const thingSchema = new Schema({
     creationDate: Number,
 });
 
-export const RobotModel = model('Robot', thingSchema, 'Robots');
+export const RobotModel = model('Robot', robotSchema, 'Robots');
 
 export async function repoGetAll() {
-    const things = await RobotModel.find();
-    return things;
+    const robots = await RobotModel.find();
+    return robots;
 }
 
 export async function repoGet(id: id) {

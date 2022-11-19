@@ -32,8 +32,8 @@ export async function controllerGet(
     next: NextFunction
 ) {
     try {
-        const thing = await repoGet(req.params.id);
-        resp.json({ thing });
+        const robot = await repoGet(req.params.id);
+        resp.json({ robot });
     } catch (error) {
         next(createHttpError(error as Error));
     }
@@ -45,8 +45,8 @@ export async function controllerPost(
     next: NextFunction
 ) {
     try {
-        const thing = await repoPost(req.body);
-        resp.json({ thing });
+        const robot = await repoPost(req.body);
+        resp.json({ robot });
     } catch (error) {
         const httpError = HTTPError(
             503,
@@ -63,8 +63,8 @@ export async function controllerPatch(
     next: NextFunction
 ) {
     try {
-        const thing = await repoPatch(req.params.id, req.body);
-        resp.json({ thing });
+        const robot = await repoPatch(req.params.id, req.body);
+        resp.json({ robot });
     } catch (error) {
         next(createHttpError(error as Error));
     }
