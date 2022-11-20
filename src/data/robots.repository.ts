@@ -15,10 +15,6 @@ export const RobotModel = model('Robot', robotSchema, 'Robots');
 
 export async function repoGetAll() {
     const robots = await RobotModel.find();
-    robots.map((robot) => {
-        console.log(robot._id);
-    });
-
     return robots;
 }
 
@@ -37,8 +33,6 @@ export async function repoPost(data: ProtoRobot) {
 }
 
 export async function repoPatch(data: Partial<Robot>) {
-    console.log('HOLA');
-    console.log(data._id);
     const result = await RobotModel.findByIdAndUpdate({ _id: data._id }, data, {
         new: true,
     });
@@ -50,8 +44,6 @@ export async function repoDelete(id: id) {
     if (!id) throw new Error('Not found id');
     const returnData = await RobotModel.findById({ _id: id });
     const result = await RobotModel.findByIdAndDelete({ _id: id });
-    console.log('result', result);
-    console.log('returnData', returnData);
     if (!result === null) throw new Error('Not found id');
     return returnData as ProtoRobot;
 }

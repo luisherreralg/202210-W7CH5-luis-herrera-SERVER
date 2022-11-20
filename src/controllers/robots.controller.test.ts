@@ -130,14 +130,23 @@ describe('Given the robots controller methods', () => {
             expect(next).toHaveBeenCalledWith(mockError);
         });
 
-        test('Then controllerDelete should return a response with an empty object', async () => {
+        test('Then controllerDelete should return a response with the deleted object', async () => {
             req.params = { id: '0' };
             await controllerDelete(
                 req as Request,
                 resp as Response,
                 next as NextFunction
             );
-            expect(resp.json).toHaveBeenCalledWith({});
+            expect(resp.json).toHaveBeenCalledWith({
+                robot: {
+                    creationDate: 0,
+                    endurance: 0,
+                    id: '0',
+                    image: 'test0',
+                    name: 'test0',
+                    speed: 0,
+                },
+            });
         });
 
         test('Then if the controllerDelete cant get a response, it should return an error', async () => {
