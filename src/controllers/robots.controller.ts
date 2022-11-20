@@ -63,7 +63,7 @@ export async function controllerPatch(
     next: NextFunction
 ) {
     try {
-        const robot = await repoPatch(req.params.id, req.body);
+        const robot = await repoPatch(req.body);
         resp.json({ robot });
     } catch (error) {
         next(createHttpError(error as Error));
@@ -76,8 +76,8 @@ export async function controllerDelete(
     next: NextFunction
 ) {
     try {
-        await repoDelete(req.params.id);
-        resp.json({});
+        const robot = await repoDelete(req.params.id);
+        resp.json({ robot });
     } catch (error) {
         next(createHttpError(error as Error));
     }

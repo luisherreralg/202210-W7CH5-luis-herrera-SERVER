@@ -12,10 +12,20 @@ import {
 
 const mockData = [
     {
-        name: 'test',
+        name: 'test1',
+        image: 'test1',
+        speed: 0,
+        endurance: 0,
+        creationDate: 'test1',
+        __v: 0,
     },
     {
         name: 'test2',
+        image: 'test2',
+        speed: 0,
+        endurance: 0,
+        creationDate: 'test2',
+        __v: 0,
     },
 ];
 
@@ -23,7 +33,7 @@ describe('Given the robots.repository methods', () => {
     describe('When they are invoked', () => {
         let testIds: Array<string>;
 
-        beforeAll(async () => {
+        beforeEach(async () => {
             await dbConnect();
             await RobotModel.deleteMany();
             await RobotModel.insertMany(mockData);
@@ -49,45 +59,55 @@ describe('Given the robots.repository methods', () => {
         });
 
         test('Then repoPost should create a new item', async () => {
-            const mockedNewItem = {
-                name: 'newItem',
+            const newItem = {
+                name: 'test',
+                image: 'test',
+                speed: 10,
+                endurance: 20,
+                creationDate: 'test',
+                __v: 0,
             };
-
-            const createNewItem = await repoPost(mockedNewItem);
-            expect(createNewItem.name).toBe(mockedNewItem.name);
+            const postItem = await repoPost(newItem);
+            expect(postItem.name).toBe(newItem.name);
         });
 
         test('Then the repoPatch should update an existing robot', async () => {
-            const mockedUpdatedItem = {
-                name: 'updateItem',
+            const mockedBody = {
+                _id: testIds[0],
+                name: 'updatedInfo',
             };
-            const updatedItem = await repoPatch(testIds[0], mockedUpdatedItem);
-            expect(updatedItem.name).toEqual(mockedUpdatedItem.name);
+            const updatedItem = await repoPatch(mockedBody);
+            expect(updatedItem.name).toEqual(mockedBody.name);
         });
 
-        test('Then the repoDelete must return an undefined', async () => {
-            const result = await repoDelete(testIds[0]);
-            expect(result).toBeUndefined();
+        test('Then the repoDelete must return the deleted object', async () => {
+            const deletedItem = await repoDelete(testIds[0]);
+            expect(deletedItem.name).toEqual(mockData[0].name);
         });
 
-        // ! ############ INTENTOS DE TEST PARA PASAR COVERAGE ############
-
-        test('Then if we pass to repoDelete a wrong id, it should throw an error', async () => {
+        // ! ############ INTENTOS DE TEST PARA MEJORAR ############
+        test.skip('Then if we pass to repoDelete a wrong id, it should throw an error', async () => {
             expect(async () => {
                 await repoDelete('PEPE');
             }).rejects.toThrowError(mongoose.Error.CastError);
         });
 
-        test('Then if we pass to repoGet a wrong id, it should throw an error', () => {
+        test.skip('Then if we pass to repoGet a wrong id, it should throw an error', () => {
             expect(async () => {
                 await repoGet('PEPE');
             }).rejects.toThrowError(mongoose.Error.CastError);
         });
 
-        test('PlaceHolder Error throw', () => {
+        test.skip('PlaceHolder Error throw', () => {
             expect(() => {
                 throw new Error('Error');
             }).toThrowError('Error');
+        });
+
+        test.skip('RepoPost throw case', () => {
+            expect(async () => {
+                await repoPost({ name: 'test' });
+            }).rejects.toThrowError(mongoose.Error.ValidationError);
         });
     });
 });
