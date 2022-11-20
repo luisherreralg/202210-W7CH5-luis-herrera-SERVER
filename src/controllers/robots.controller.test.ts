@@ -55,7 +55,7 @@ describe('Given the robots controller methods', () => {
                 resp as Response,
                 next as NextFunction
             );
-            expect(resp.json).toHaveBeenCalledWith({ robots: mockData });
+            expect(resp.json).toHaveBeenCalledWith(mockData);
         });
 
         test('Then when controllerGetAll cant get a response, it should return an error', async () => {
@@ -117,7 +117,7 @@ describe('Given the robots controller methods', () => {
                 resp as Response,
                 next as NextFunction
             );
-            expect(resp.json).toHaveBeenCalledWith({ robots: mockData });
+            expect(resp.json).toHaveBeenCalledWith(mockData);
         });
 
         test('Then if the controllerPatch cant get a response, it should return an error', async () => {
