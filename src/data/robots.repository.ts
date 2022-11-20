@@ -1,5 +1,5 @@
 import mongoose, { model, Schema } from 'mongoose';
-import { ProtoRobot, Robot, Robots } from '../interfaces/robot.js';
+import { ProtoRobot, Robot } from '../interfaces/robot.js';
 import { id } from './data.js';
 
 export const robotSchema = new Schema({
