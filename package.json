@@ -5,7 +5,7 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "start": "cross-env DEBUG=w7* node dist/index.js",
+        "start": "cross-env DEBUG=W7CH5* node dist/index.js",
         "start:dev": "cross-env PORT=7700 nodemon dist/index.js",
         "build": "tsc",
         "build:dev": "tsc --watch",

@@ -1,8 +1,9 @@
-import mongoose, { model, mongo, Schema } from 'mongoose';
-import { ProtoRobot, Robot } from '../interfaces/robot.js';
+import mongoose, { model, Schema } from 'mongoose';
+import { ProtoRobot, Robot, Robots } from '../interfaces/robot.js';
 import { id } from './data.js';
 
 export const robotSchema = new Schema({
+    _id: mongoose.Types.ObjectId,
     name: String,
     image: String,
     speed: Number,
@@ -28,7 +29,10 @@ export async function repoGet(id: id) {
 }
 
 export async function repoPost(data: ProtoRobot) {
-    const result = await RobotModel.create(data);
+    const result = await RobotModel.create({
+        ...data,
+        _id: new mongoose.Types.ObjectId(),
+    });
     return result as ProtoRobot;
 }
 
@@ -43,7 +47,11 @@ export async function repoPatch(data: Partial<Robot>) {
 }
 
 export async function repoDelete(id: id) {
+    if (!id) throw new Error('Not found id');
+    const returnData = await RobotModel.findById({ _id: id });
     const result = await RobotModel.findByIdAndDelete({ _id: id });
-    if (result === null) throw new Error('Not found id');
-    return;
+    console.log('result', result);
+    console.log('returnData', returnData);
+    if (!result === null) throw new Error('Not found id');
+    return returnData as ProtoRobot;
 }
