@@ -85,24 +85,29 @@ describe('Given the robots.repository methods', () => {
             expect(deletedItem.name).toEqual(mockData[0].name);
         });
 
-        // ! ############ INTENTOS DE TEST PARA PASAR COVERAGE ############
-
-        test('Then if we pass to repoDelete a wrong id, it should throw an error', async () => {
+        // ! ############ INTENTOS DE TEST PARA MEJORAR ############
+        test.skip('Then if we pass to repoDelete a wrong id, it should throw an error', async () => {
             expect(async () => {
                 await repoDelete('PEPE');
             }).rejects.toThrowError(mongoose.Error.CastError);
         });
 
-        test('Then if we pass to repoGet a wrong id, it should throw an error', () => {
+        test.skip('Then if we pass to repoGet a wrong id, it should throw an error', () => {
             expect(async () => {
                 await repoGet('PEPE');
             }).rejects.toThrowError(mongoose.Error.CastError);
         });
 
-        test('PlaceHolder Error throw', () => {
+        test.skip('PlaceHolder Error throw', () => {
             expect(() => {
                 throw new Error('Error');
             }).toThrowError('Error');
+        });
+
+        test.skip('RepoPost throw case', () => {
+            expect(async () => {
+                await repoPost({ name: 'test' });
+            }).rejects.toThrowError(mongoose.Error.ValidationError);
         });
     });
 });
