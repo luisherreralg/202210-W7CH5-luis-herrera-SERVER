@@ -15,7 +15,7 @@ export async function controllerGetAll(
 ) {
     try {
         const robots = await repoGetAll();
-        resp.json({ robots });
+        resp.json(robots);
     } catch (error) {
         const httpError = HTTPError(
             503,
