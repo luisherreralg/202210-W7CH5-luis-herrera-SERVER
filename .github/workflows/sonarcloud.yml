@@ -55,6 +55,7 @@ jobs:
           USER: ${{ secrets.USER }}
           PW: ${{ secrets.PW }}
           CLUSTER: ${{ secrets.CLUSTER }}
+          SECRET: ${{ secrets.SECRET }}
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
