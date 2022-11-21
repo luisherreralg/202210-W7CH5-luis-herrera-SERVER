@@ -6,11 +6,12 @@ import {
     controllerPatch,
     controllerPost,
 } from '../controllers/robots.controller.js';
+import { logged } from '../middleware/interceptors/logged.js';
 
 export const robotRouter = Router();
 
-robotRouter.get('/', controllerGetAll);
-robotRouter.get('/:id', controllerGet);
-robotRouter.post('/', controllerPost);
-robotRouter.patch('/', controllerPatch);
-robotRouter.delete('/:id', controllerDelete);
+robotRouter.get('/', logged, controllerGetAll);
+robotRouter.get('/:id', logged, controllerGet);
+robotRouter.post('/', logged, controllerPost);
+robotRouter.patch('/', logged, controllerPatch);
+robotRouter.delete('/:id', logged, controllerDelete);
