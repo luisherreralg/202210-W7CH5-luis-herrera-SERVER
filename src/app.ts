@@ -3,13 +3,13 @@ import cors from 'cors';
 import morgan from 'morgan';
 import { CustomError } from './interfaces/error.js';
 import { robotRouter } from './router/robot.js';
+import { userRouter } from './router/users.js';
 
 export const app = express();
 app.disable('x-powered-by');
 const corsOptions = {
     origin: '*',
 };
-
 app.use(morgan('dev'));
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -29,7 +29,7 @@ const template = `
 app.get('/', (_req, res) => {
     res.send(template).end();
 });
-
+app.use('/users', userRouter);
 app.use('/robots', robotRouter);
 
 app.use(
