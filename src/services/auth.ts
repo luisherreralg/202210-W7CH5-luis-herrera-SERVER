@@ -12,7 +12,7 @@ export const createToken = (payload: TokenPayload) => {
     if (typeof SECRET !== 'string') {
         throw new Error();
     }
-    return jwt.sign(payload, SECRET as string);
+    return jwt.sign(payload, SECRET);
 };
 
 export const readToken = (token: string) => {
@@ -20,7 +20,7 @@ export const readToken = (token: string) => {
         throw new Error();
     }
 
-    const payload = jwt.verify(token, SECRET as string);
+    const payload = jwt.verify(token, SECRET);
 
     if (typeof payload === 'string') {
         throw new Error('Token not valid');

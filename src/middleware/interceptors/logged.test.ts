@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { ExtraRequest } from '../../controllers/robots.controller';
 import { createHttpError } from '../../interfaces/error';
-import { readToken } from '../../services/auth';
 import { logged } from './logged';
 
 describe('Given the logged interceptor', () => {
