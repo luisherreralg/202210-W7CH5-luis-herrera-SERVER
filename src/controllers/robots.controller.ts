@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { JwtPayload } from 'jsonwebtoken';
 import {
     repoDelete,
     repoGet,
@@ -7,6 +8,11 @@ import {
     repoPost,
 } from '../data/robots.repository.js';
 import { createHttpError, HTTPError } from '../interfaces/error.js';
+import { userGet } from '../repositories/user.repository.js';
+
+export interface ExtraRequest extends Request {
+    payload?: JwtPayload;
+}
 
 export async function controllerGetAll(
     req: Request,
@@ -40,12 +46,19 @@ export async function controllerGet(
 }
 
 export async function controllerPost(
-    req: Request,
+    req: ExtraRequest,
     resp: Response,
     next: NextFunction
 ) {
     try {
+        if (!req.payload) {
+            throw new Error('Invalid payload');
+        }
+
+        const user = await userGet(req.payload.id);
+        req.body.owner = user.id;
         const robot = await repoPost(req.body);
+        console.log(req.body);
         resp.json({ robot });
     } catch (error) {
         const httpError = HTTPError(

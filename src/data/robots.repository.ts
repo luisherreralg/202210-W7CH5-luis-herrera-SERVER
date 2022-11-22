@@ -9,6 +9,7 @@ export const robotSchema = new Schema({
     speed: Number,
     endurance: Number,
     creationDate: String,
+    owner: mongoose.Types.ObjectId,
 });
 
 export const RobotModel = model('Robot', robotSchema, 'Robots');
@@ -20,11 +21,14 @@ export async function repoGetAll() {
 
 export async function repoGet(id: id) {
     const result = await RobotModel.findById(id);
-    if (!result) throw new Error('Not found id');
+    if (!result) {
+        throw new Error('Not found id');
+    }
     return result as ProtoRobot;
 }
 
 export async function repoPost(data: ProtoRobot) {
+    console.log(data);
     const result = await RobotModel.create({
         ...data,
         _id: new mongoose.Types.ObjectId(),

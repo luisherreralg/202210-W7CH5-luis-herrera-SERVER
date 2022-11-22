@@ -4,6 +4,7 @@ export type ProtoRobot = {
     speed?: number;
     endurance?: number;
     creationDate?: string;
+    owner?: string;
 };
 
 export type Robot = {
