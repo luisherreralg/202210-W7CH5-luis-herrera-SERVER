@@ -10,7 +10,6 @@ export async function controllerLogin(
 ) {
     try {
         const user = await userFind({ name: req.body.name });
-        user.id;
         const isPasswdValid = await passwdValidate(
             req.body.passwd,
             user.passwd
