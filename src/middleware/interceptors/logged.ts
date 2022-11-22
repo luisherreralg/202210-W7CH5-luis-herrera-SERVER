@@ -13,8 +13,9 @@ export const logged = (
     next: NextFunction
 ) => {
     const authString = req.get('Authorization');
-    if (!authString || authString?.slice(1, 6) !== 'Bearer') {
-        next(new Error('No token provided'));
+
+    if (!authString) {
+        next(createHttpError(new Error('Not logged')));
         return;
     }
     try {
