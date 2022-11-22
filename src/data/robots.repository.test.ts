@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import { dbConnect } from '../db/db.connect';
-
 import {
     repoDelete,
     repoGet,
@@ -92,9 +91,9 @@ describe('Given the robots.repository methods', () => {
             }).rejects.toThrowError(mongoose.Error.CastError);
         });
 
-        test.skip('Then if we pass to repoGet a wrong id, it should throw an error', () => {
+        test.skip('Then if we pass to repoGet a wrong id, it should throw an error', async () => {
             expect(async () => {
-                await repoGet('PEPE');
+                await repoGet('637d1a6d05dc2717a7740656');
             }).rejects.toThrowError(mongoose.Error.CastError);
         });
 

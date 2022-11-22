@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 
 export type ProtoUser = {
     name?: string;
@@ -34,3 +34,5 @@ userSchema.set('toJSON', {
         delete returnedObject.passwd;
     },
 });
+
+export const userModel = model('User', userSchema, 'Users');

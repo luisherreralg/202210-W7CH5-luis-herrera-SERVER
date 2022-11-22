@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { createHttpError } from '../interfaces/error.js';
-import { userFind, userPost } from '../repositories/user.js';
+import { userFind, userPost } from '../repositories/user.repository.js';
 import { createToken, passwdValidate } from '../services/auth.js';
 
 export async function controllerLogin(
@@ -10,13 +10,18 @@ export async function controllerLogin(
 ) {
     try {
         const user = await userFind({ name: req.body.name });
+        user.id;
         const isPasswdValid = await passwdValidate(
             req.body.passwd,
             user.passwd
         );
 
         if (!isPasswdValid) throw new Error();
-        const token = createToken({ userName: user.name });
+        const token = createToken({
+            name: user.name,
+            id: user.id,
+            role: user.role,
+        });
         resp.json({ token });
     } catch (error) {
         next(createHttpError(error as Error));
