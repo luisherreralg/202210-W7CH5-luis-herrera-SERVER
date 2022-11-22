@@ -14,10 +14,11 @@ export const logged = (
 ) => {
     const authString = req.get('Authorization');
 
-    if (!authString) {
+    if (!authString || !authString.startsWith('Bearer ')) {
         next(createHttpError(new Error('Not logged')));
         return;
     }
+
     try {
         const token = authString.slice(7);
         req.payload = readToken(token);
