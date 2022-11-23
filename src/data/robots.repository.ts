@@ -50,6 +50,6 @@ export async function repoDelete(id: id) {
     if (!id) throw new Error('Not found id');
     const returnData = await RobotModel.findById({ _id: id });
     const result = await RobotModel.findByIdAndDelete({ _id: id });
-    if (!result === null) throw new Error('Not found id');
+    if (result === null) throw new Error('Not found id');
     return returnData as unknown as Robot;
 }

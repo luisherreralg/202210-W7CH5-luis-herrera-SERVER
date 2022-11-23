@@ -1,40 +1,16 @@
 import mongoose from 'mongoose';
 import { dbConnect } from '../db/db.connect';
 import { userModel } from '../interfaces/user';
+import { mockUsers, newUser, setUserCollection } from '../mocks/mocks';
 import { userFind, userGet, userPost } from './user.repository';
-
-const mockData = [
-    {
-        name: 'Pepe',
-        email: '',
-        password: '',
-        role: 'user',
-    },
-    {
-        name: 'Juan',
-        email: '',
-        password: '',
-        role: 'user',
-    },
-];
-
-const newUser = {
-    name: 'newUser',
-    email: '',
-    passwd: '',
-    role: 'user',
-};
 
 describe('Given the user repository', () => {
     describe('When its invoked', () => {
-        let testIds: Array<string>;
+        let userIds: Array<string>;
 
         beforeEach(async () => {
             await dbConnect();
-            await userModel.deleteMany();
-            await userModel.insertMany(mockData);
-            const data = await userModel.find();
-            testIds = data.map((user) => user._id.toString());
+            userIds = await setUserCollection();
         });
 
         afterAll(async () => {
@@ -53,8 +29,8 @@ describe('Given the user repository', () => {
         });
 
         test('Then the userGet should return the specified user', async () => {
-            const result = await userGet(testIds[0]);
-            expect(result.name).toBe(mockData[0].name);
+            const result = await userGet(userIds[0]);
+            expect(result.name).toBe(mockUsers[0].name);
         });
 
         test('Then if we use userGet and the id is not valid, it should throw an error', async () => {
@@ -69,7 +45,7 @@ describe('Given the user repository', () => {
 
         test('Then the userFind should find the specified key', async () => {
             const result = await userFind({ name: 'Pepe' });
-            expect(result.name).toBe(mockData[0].name);
+            expect(result.name).toBe(mockUsers[0].name);
         });
     });
 });

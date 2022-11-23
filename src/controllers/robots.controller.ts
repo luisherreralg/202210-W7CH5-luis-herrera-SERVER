@@ -10,8 +10,8 @@ import {
 import { createHttpError, HTTPError } from '../interfaces/error.js';
 import { userGet } from '../repositories/user.repository.js';
 import { userModel } from '../interfaces/user.js';
-// import createDebug from 'debug';
-// const debug = createDebug('W8:app:robots.controller');
+import createDebug from 'debug';
+const debug = createDebug('W8:controller:robots.controller');
 
 export interface ExtraRequest extends Request {
     payload?: JwtPayload;
@@ -22,6 +22,8 @@ export async function controllerGetAll(
     resp: Response,
     next: NextFunction
 ) {
+    debug('HOLA');
+
     try {
         const robots = await repoGetAll();
         resp.status(201).json(robots);
@@ -42,7 +44,7 @@ export async function controllerGet(
 ) {
     try {
         const robot = await repoGet(req.params.id);
-        resp.json({ robot });
+        resp.status(201).json({ robot });
     } catch (error) {
         next(createHttpError(error as Error));
     }
@@ -89,7 +91,7 @@ export async function controllerPatch(
 ) {
     try {
         const robot = await repoPatch(req.body);
-        resp.json({ robot });
+        resp.status(201).json({ robot });
     } catch (error) {
         next(createHttpError(error as Error));
     }
@@ -107,7 +109,7 @@ export async function controllerDelete(
             (id) => id.toString() !== robot._id.toString()
         );
         await userModel.findByIdAndUpdate(user._id, user, { new: true });
-        resp.json({ robot });
+        resp.status(201).json({ robot });
     } catch (error) {
         next(createHttpError(error as Error));
     }

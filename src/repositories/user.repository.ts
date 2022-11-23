@@ -27,7 +27,6 @@ export async function userPost(data: Partial<User>): Promise<User> {
 export async function userFind(search: {
     [key: string]: string | number | Date;
 }): Promise<User> {
-    console.log(search);
     const result = await userModel.findOne(search);
     if (!result) {
         throw new Error('Not found id');

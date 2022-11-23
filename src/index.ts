@@ -3,11 +3,8 @@ import { app } from './app.js';
 import { PORT, URL } from './config.js';
 import { dbConnect } from './db/db.connect.js';
 import { CustomError } from './interfaces/error.js';
-
-// Importamos el debugCreator
-import debugCreator from 'debug';
-// Creamos una instancia de debugCreator con el nombre de nuestro archivo
-const debug = debugCreator('W7CH5:app');
+import createDebug from 'debug';
+const debug = createDebug('W8:index');
 
 const port = PORT || 3300;
 const server = http.createServer(app);
@@ -23,7 +20,7 @@ server.on('listening', () => {
                 ? `${URL}${addr?.port}`
                 : `port ${addr?.port}`;
     }
-    console.log(`Listening on ${bind}`);
+    debug(`Listening on ${bind}`);
 });
 
 server.on('error', (error: CustomError, response: http.ServerResponse) => {

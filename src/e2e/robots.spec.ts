@@ -2,8 +2,10 @@ import request from 'supertest';
 import { app } from '../app';
 import { dbConnect } from '../db/db.connect';
 import { dbDisconnect } from '../db/db.disconnect';
-import { userModel } from '../interfaces/user';
-import { createToken, TokenPayload } from '../services/auth';
+import { setRobotCollection, setUserCollection } from '../mocks/mocks';
+import { createToken } from '../services/auth';
+// import createDebug from 'debug';
+// const debug = createDebug('W8:e2e:robot.spec');
 
 const payload = (idUser: string) => {
     return {
@@ -13,40 +15,22 @@ const payload = (idUser: string) => {
     };
 };
 
-const mockData = [
-    {
-        name: 'Pepe',
-        email: '',
-        password: '',
-        role: 'user',
-    },
-    {
-        name: 'Juan',
-        email: '',
-        password: '',
-        role: 'user',
-    },
-];
-
-const setCollection = async () => {
-    await await userModel.deleteMany();
-    await userModel.insertMany(mockData);
-    const data = await userModel.find();
-    const testIds = data.map((user) => user._id.toString());
-    return testIds;
-};
-
 describe('Given the "app" with "/robots" route', () => {
     let token: string;
-    let ids: string[];
+    let userIds: string[];
+    let robotIds: string[];
 
-    beforeEach(async () => {
+    beforeAll(async () => {
         await dbConnect();
-        ids = await setCollection();
-        token = createToken(payload(ids[0]));
     });
 
-    afterEach(async () => {
+    beforeEach(async () => {
+        userIds = await setUserCollection();
+        robotIds = await setRobotCollection();
+        token = createToken(payload(userIds[0]));
+    });
+
+    afterAll(async () => {
         await dbDisconnect();
     });
 
@@ -69,15 +53,15 @@ describe('Given the "app" with "/robots" route', () => {
     });
 
     test('Get wrong id', async () => {
-        const response = await request(app).get(
-            '/robot/637d184505dc2717a774060c'
-        );
+        const response = await request(app)
+            .get('/robots/637d184505dc2717a774060c')
+            .set('Authorization', `Bearer ${token}`);
         expect(response.status).toBe(404);
     });
 
     test('Get correct id', async () => {
         const response = await request(app)
-            .get(`/robot/${ids[0]}`)
+            .get(`/robots/${robotIds[0]}`)
             .set('Authorization', `Bearer ${token}`);
 
         expect(response.status).toBe(201);
@@ -98,10 +82,60 @@ describe('Given the "app" with "/robots" route', () => {
             .set('Authorization', `Bearer ${token}`);
         expect(response.status).toBe(201);
     });
-});
 
-// get('/robots/');
-// get('/robots/:id');
-// post('/robots/');
-// patch('/robots/');
-// delete '/robots/:id';
+    test('Patch without auth', async () => {
+        const response = await request(app).patch('/robots');
+        expect(response.status).toBe(503);
+    });
+
+    test('Patch with auth but wrong id', async () => {
+        const response = await request(app)
+            .patch('/robots/637d184505dc2717a774060c')
+            .set('Authorization', `Bearer ${token}`);
+        expect(response.status).toBe(404);
+    });
+
+    test('Patch with auth', async () => {
+        const updatedRobot = {
+            _id: robotIds[0],
+            name: 'update',
+            image: 'update',
+            speed: 0,
+            endurance: 0,
+            creationDate: 0,
+        };
+
+        const response = await request(app)
+            .patch('/robots')
+            .set('Authorization', `Bearer ${token}`)
+            .send(updatedRobot);
+
+        expect(response.status).toBe(201);
+    });
+
+    test('Delete without auth', async () => {
+        const response = await request(app).delete('/robots');
+        expect(response.status).toBe(404);
+    });
+
+    test('Delete with auth but malformed id', async () => {
+        const response = await request(app)
+            .delete('/robots/23')
+            .set('Authorization', `Bearer ${token}`);
+        expect(response.status).toBe(503);
+    });
+
+    test('Delete with auth but wrong id', async () => {
+        const response = await request(app)
+            .delete('/robots/637d184505dc2717a774060c')
+            .set('Authorization', `Bearer ${token}`);
+        expect(response.status).toBe(404);
+    });
+
+    test('Delete with auth', async () => {
+        const response = await request(app)
+            .delete(`/robots/${robotIds[0]}`)
+            .set('Authorization', `Bearer ${token}`);
+        expect(response.status).toBe(201);
+    });
+});
