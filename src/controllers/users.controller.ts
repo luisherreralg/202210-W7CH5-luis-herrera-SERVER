@@ -18,7 +18,7 @@ export async function controllerLogin(
         if (!isPasswdValid) throw new Error();
         const token = createToken({
             name: user.name,
-            id: user.id,
+            id: user._id.toString(),
             role: user.role,
         });
         resp.json({ token });
@@ -34,7 +34,7 @@ export async function controllerRegister(
 ) {
     try {
         const user = await userPost(req.body);
-        resp.json({ user });
+        resp.status(201).json({ user });
     } catch (error) {
         next(createHttpError(error as Error));
     }

@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 export type ProtoRobot = {
     name?: string;
     image?: string;
@@ -8,7 +10,7 @@ export type ProtoRobot = {
 };
 
 export type Robot = {
-    _id: string;
+    _id: mongoose.Types.ObjectId;
     name: string;
     image: string;
     speed: number;

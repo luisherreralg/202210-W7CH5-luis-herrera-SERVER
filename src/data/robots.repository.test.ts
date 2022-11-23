@@ -16,6 +16,7 @@ const mockData = [
         speed: 0,
         endurance: 0,
         creationDate: 'test1',
+        robots: [],
         __v: 0,
     },
     {
@@ -24,9 +25,21 @@ const mockData = [
         speed: 0,
         endurance: 0,
         creationDate: 'test2',
+        robots: [],
         __v: 0,
     },
 ];
+
+const newItem = {
+    _id: new mongoose.Types.ObjectId(),
+    name: 'test',
+    image: 'test',
+    speed: 10,
+    endurance: 20,
+    creationDate: 'test',
+    robots: [],
+    __v: 0,
+};
 
 describe('Given the robots.repository methods', () => {
     describe('When they are invoked', () => {
@@ -58,21 +71,14 @@ describe('Given the robots.repository methods', () => {
         });
 
         test('Then repoPost should create a new item', async () => {
-            const newItem = {
-                name: 'test',
-                image: 'test',
-                speed: 10,
-                endurance: 20,
-                creationDate: 'test',
-                __v: 0,
-            };
             const postItem = await repoPost(newItem);
             expect(postItem.name).toBe(newItem.name);
         });
 
         test('Then the repoPatch should update an existing robot', async () => {
+            // TODO: Revisar la _id y que pase el test
             const mockedBody = {
-                _id: testIds[0],
+                _id: new mongoose.Types.ObjectId(),
                 name: 'updatedInfo',
             };
             const updatedItem = await repoPatch(mockedBody);
@@ -105,7 +111,7 @@ describe('Given the robots.repository methods', () => {
 
         test.skip('RepoPost throw case', () => {
             expect(async () => {
-                await repoPost({ name: 'test' });
+                await repoPost(newItem);
             }).rejects.toThrowError(mongoose.Error.ValidationError);
         });
     });
