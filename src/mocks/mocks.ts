@@ -4,15 +4,17 @@ import { userModel } from '../interfaces/user';
 
 export const mockUsers = [
     {
+        _id: new mongoose.Types.ObjectId(),
         name: 'Pepe',
         email: '',
-        password: '',
+        passwd: '$2a$10$KVw1GyjA/kwmqmAoofS4BONQyO2WD7mfzv0SB9Ux0Tcl4qFs/ivb2',
         role: 'user',
     },
     {
+        _id: new mongoose.Types.ObjectId(),
         name: 'Juan',
         email: '',
-        password: '',
+        passwd: 'Juan',
         role: 'user',
     },
 ];

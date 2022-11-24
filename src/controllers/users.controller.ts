@@ -14,9 +14,9 @@ export async function controllerLogin(
             req.body.passwd,
             user.passwd
         );
-
         if (!isPasswdValid) throw new Error();
-        const token = createToken({
+
+        const token = await createToken({
             name: user.name,
             id: user._id.toString(),
             role: user.role,

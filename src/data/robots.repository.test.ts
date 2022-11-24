@@ -1,4 +1,4 @@
-import mongoose, { Types } from 'mongoose';
+import mongoose from 'mongoose';
 import { dbConnect } from '../db/db.connect';
 import { mockRobots, setRobotCollection } from '../mocks/mocks';
 import {
@@ -8,17 +8,6 @@ import {
     repoPatch,
     repoPost,
 } from './robots.repository';
-
-const newItem = {
-    _id: new mongoose.Types.ObjectId(),
-    name: 'test',
-    image: 'test',
-    speed: 10,
-    endurance: 20,
-    creationDate: 'test',
-    robots: [],
-    __v: 0,
-};
 
 describe('Given the robots.repository methods', () => {
     describe('When they are invoked', () => {
@@ -46,8 +35,18 @@ describe('Given the robots.repository methods', () => {
         });
 
         test('Then repoPost should create a new item', async () => {
-            const postItem = await repoPost(newItem);
-            expect(postItem.name).toBe(newItem.name);
+            const updateItem = {
+                _id: new mongoose.Types.ObjectId(robotIds[0]),
+                name: 'updated',
+                image: 'updated',
+                speed: 10,
+                endurance: 20,
+                creationDate: 'test',
+                robots: [],
+                __v: 0,
+            };
+            const postItem = await repoPost(updateItem);
+            expect(postItem.name).toBe(updateItem.name);
         });
 
         test('Then the repoPatch should update an existing robot', async () => {
@@ -89,10 +88,11 @@ describe('Given the robots.repository methods', () => {
             }).toThrowError('Error');
         });
 
-        test.skip('RepoPost throw case', () => {
-            expect(async () => {
-                await repoPost(newItem);
-            }).rejects.toThrowError(mongoose.Error.ValidationError);
-        });
+        // test.skip('RepoPost throw case', () => {
+        //     expect(async () => {
+
+        //         await repoPost(newItem);
+        //     }).rejects.toThrowError(mongoose.Error.ValidationError);
+        // });
     });
 });

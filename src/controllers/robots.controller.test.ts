@@ -7,6 +7,7 @@ import {
     controllerGetAll,
     controllerPatch,
     controllerPost,
+    ExtraRequest,
 } from './robots.controller.js';
 jest.mock('../data/robots.repository.js');
 
@@ -118,7 +119,7 @@ describe('Given the robots controller methods', () => {
             req.params = { _id: mockRobots[0]._id.toString() as string };
 
             await controllerDelete(
-                req as Request,
+                req as ExtraRequest,
                 resp as Response,
                 next as NextFunction
             );
