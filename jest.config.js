@@ -6,6 +6,6 @@ const resolver = 'jest-ts-webcompat-resolver';
 export default {
     preset,
     testEnvironment,
-    testPathIgnorePatterns 
+    testPathIgnorePatterns,
     resolver,
 };
