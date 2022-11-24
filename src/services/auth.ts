@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import bc from 'bcryptjs';
 import { SECRET } from '../config.js';
 
-type TokenPayload = {
+export type TokenPayload = {
     id: string;
     name: string;
     role: string;

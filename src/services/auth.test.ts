@@ -24,7 +24,6 @@ describe('Given createToken ', () => {
 describe('Given readToken ', () => {
     describe('Whne token is valid', () => {
         const token = createToken(mock);
-        console.log(token);
         test('Then', () => {
             const r = readToken(token);
             expect(r.name).toEqual(mock.name);

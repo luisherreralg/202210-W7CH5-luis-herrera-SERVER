@@ -4,6 +4,8 @@ import morgan from 'morgan';
 import { CustomError } from './interfaces/error.js';
 import { robotRouter } from './router/robot.js';
 import { userRouter } from './router/users.js';
+import createDebug from 'debug';
+const debug = createDebug('W8:app');
 
 export const app = express();
 app.disable('x-powered-by');
@@ -35,12 +37,7 @@ app.use('/robots', robotRouter);
 app.use(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (error: CustomError, _req: Request, resp: Response, next: NextFunction) => {
-        console.log(
-            error.name,
-            error.statusCode,
-            error.statusMessage,
-            error.message
-        );
+        debug(error.name, error.statusCode, error.statusMessage, error.message);
         let status = error.statusCode || 500;
         if (error.name === 'ValidationError') {
             status = 406;

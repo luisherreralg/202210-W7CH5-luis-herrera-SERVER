@@ -9,7 +9,10 @@ export const robotSchema = new Schema({
     speed: Number,
     endurance: Number,
     creationDate: String,
-    owner: mongoose.Types.ObjectId,
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    },
 });
 
 export const RobotModel = model('Robot', robotSchema, 'Robots');
@@ -27,13 +30,12 @@ export async function repoGet(id: id) {
     return result as ProtoRobot;
 }
 
-export async function repoPost(data: ProtoRobot) {
-    console.log(data);
-    const result = await RobotModel.create({
+export async function repoPost(data: Robot) {
+    const result = await await RobotModel.create({
         ...data,
         _id: new mongoose.Types.ObjectId(),
     });
-    return result as ProtoRobot;
+    return result as unknown as Robot;
 }
 
 export async function repoPatch(data: Partial<Robot>) {
@@ -48,6 +50,6 @@ export async function repoDelete(id: id) {
     if (!id) throw new Error('Not found id');
     const returnData = await RobotModel.findById({ _id: id });
     const result = await RobotModel.findByIdAndDelete({ _id: id });
-    if (!result === null) throw new Error('Not found id');
-    return returnData as ProtoRobot;
+    if (result === null) throw new Error('Not found id');
+    return returnData as unknown as Robot;
 }
